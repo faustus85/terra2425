@@ -1,4 +1,4 @@
-resource "azurerm_storage_account" "mcitstorageaccount" {
+resource "azurerm_storage_account" "mcitstoragejoe" {
   name                     = "storageaccountjoe"
   resource_group_name      = azurerm_resource_group.mcit420zz5um.name
   location                 = azurerm_resource_group.mcit420zz5um.location
