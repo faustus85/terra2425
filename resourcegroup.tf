@@ -1,4 +1,4 @@
-resource "azurem_resource_group" "joemcit24" {
-  name  ="mcit_resource_group_joe24"
+resource "azurerm_resource_group" "mcitjoseph24" {
+  name     = "joe_resource_group_w24"
   location = "canadacentral"
 }
