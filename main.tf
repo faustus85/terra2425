@@ -35,7 +35,7 @@ resource "azurerm_linux_virtual_machine" "example" {
   location            = azurerm_resource_group.mcitjoseph24.location
   size                = "Standard_F2"
   admin_username      = "adminuser"
-  admin_password      = "H123456789"  # Corrected
+  admin_password      = "Faustus1985@"  # Corrected
 
   network_interface_ids = [
     azurerm_network_interface.josephtest.id,
