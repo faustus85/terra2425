@@ -7,7 +7,7 @@ resource "azurerm_resource_group" "azjoerg" {
   location = "central canada"
 }
 
-resource "azurerm_virtual_network" "azjoevm" {  
+resource "azurerm_virtual_network" "azjoevm" {
   name                = "azjoe-network"
   address_space       = ["10.0.0.0/16"]
   location            = azurerm_resource_group.azjoerg.location
@@ -41,7 +41,7 @@ resource "azurerm_windows_virtual_machine" "azjoevm" {
   admin_username      = "adminuser"
   admin_password      = "zozo1985"
   network_interface_ids = [
-    azurerm_network_interface.azjoeni.id,  # Corrected the reference
+    azurerm_network_interface.azjoeni.id,
   ]
 
   os_disk {
@@ -56,4 +56,3 @@ resource "azurerm_windows_virtual_machine" "azjoevm" {
     version   = "latest"
   }
 }
-
