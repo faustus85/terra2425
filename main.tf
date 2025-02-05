@@ -1,30 +1,30 @@
 # Resource Group
 resource "azurerm_resource_group" "combinedrg" {
-  name     = var.combinedrg
-  location = canadacentral
+  name     = var.resource_group_name
+  location = var.location
 }
 
 # Virtual Network
 resource "azurerm_virtual_network" "virtual_network" {
-  name                = combinedvn
+  name                = var.vnet_name
   address_space       = ["10.0.0.0/16"]
-  location            = azurerm_resource_group.resource_group.location
-  resource_group_name = azurerm_resource_group.resource_group.name
+  location            = azurerm_resource_group.combinedrg.location
+  resource_group_name = azurerm_resource_group.combinedrg.name
 }
 
 # Subnet
 resource "azurerm_subnet" "subnet" {
-  name                 = combinedsubnet
-  resource_group_name  = azurerm_resource_group.resource_group.name
+  name                 = var.subnet_name
+  resource_group_name  = azurerm_resource_group.combinedrg.name
   virtual_network_name = azurerm_virtual_network.virtual_network.name
   address_prefixes     = ["10.0.2.0/24"]
 }
 
 # Network Interface for Linux VM
 resource "azurerm_network_interface" "linux_nic" {
-  name                = nilinux
-  location            = azurerm_resource_group.resource_group.location
-  resource_group_name = azurerm_resource_group.resource_group.name
+  name                = var.linux_nic_name
+  location            = azurerm_resource_group.combinedrg.location
+  resource_group_name = azurerm_resource_group.combinedrg.name
 
   ip_configuration {
     name                          = "linux-ip-config"
@@ -35,9 +35,9 @@ resource "azurerm_network_interface" "linux_nic" {
 
 # Network Interface for Windows VM
 resource "azurerm_network_interface" "windows_nic" {
-  name                = var.windows_windowni
-  location            = azurerm_resource_group.resource_group.location
-  resource_group_name = azurerm_resource_group.resource_group.name
+  name                = var.windows_nic_name
+  location            = azurerm_resource_group.combinedrg.location
+  resource_group_name = azurerm_resource_group.combinedrg.name
 
   ip_configuration {
     name                          = "windows-ip-config"
@@ -48,9 +48,9 @@ resource "azurerm_network_interface" "windows_nic" {
 
 # Linux Virtual Machine
 resource "azurerm_linux_virtual_machine" "linux_vm" {
-  name                = var.linuxjoseph
-  resource_group_name = azurerm_resource_group.resource_group.name
-  location            = azurerm_resource_group.resource_group.location
+  name                = var.linux_vm_name
+  resource_group_name = azurerm_resource_group.combinedrg.name
+  location            = azurerm_resource_group.combinedrg.location
   size                = var.linux_vm_size
   admin_username      = var.linux_admin_username
   admin_password      = var.linux_admin_password
@@ -77,8 +77,8 @@ resource "azurerm_linux_virtual_machine" "linux_vm" {
 # Windows Virtual Machine
 resource "azurerm_windows_virtual_machine" "windows_vm" {
   name                = var.windows_vm_name
-  resource_group_name = azurerm_resource_group.resource_group.name
-  location            = azurerm_resource_group.resource_group.location
+  resource_group_name = azurerm_resource_group.combinedrg.name
+  location            = azurerm_resource_group.combinedrg.location
   size                = var.windows_vm_size
   admin_username      = var.windows_admin_username
   admin_password      = var.windows_admin_password
@@ -115,5 +115,5 @@ output "windows_vm_private_ip" {
 
 output "resource_group_name" {
   description = "The name of the resource group"
-  value       = azurerm_resource_group.resource_group.name
+  value       = azurerm_resource_group.combinedrg.name
 }
