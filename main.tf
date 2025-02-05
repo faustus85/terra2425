@@ -7,7 +7,7 @@ resource "azurerm_resource_group" "azjoerg" {
   location = "central canada"
 }
 
-resource "azurerm_virtual_network" "azjoevm" {
+resource "azurerm_virtual_network" "azjoevn" {
   name                = "azjoe-network"
   address_space       = ["10.0.0.0/16"]
   location            = azurerm_resource_group.azjoerg.location
@@ -17,12 +17,12 @@ resource "azurerm_virtual_network" "azjoevm" {
 resource "azurerm_subnet" "azjoesubnet" {
   name                 = "internal"
   resource_group_name  = azurerm_resource_group.azjoerg.name
-  virtual_network_name = azurerm_virtual_network.azjoevm.name
+  virtual_network_name = azurerm_virtual_network.azjoevn.name
   address_prefixes     = ["10.0.2.0/24"]
 }
 
 resource "azurerm_network_interface" "azjoeni" {
-  name                = "example-nic"
+  name                = "joe-nic"
   location            = azurerm_resource_group.azjoerg.location
   resource_group_name = azurerm_resource_group.azjoerg.name
 
