@@ -1,12 +1,12 @@
 # Resource Group
-resource "azurerm_resource_group" "resource_group" {
-  name     = var.resource_group_name
-  location = var.location
+resource "azurerm_resource_group" "combinedrg" {
+  name     = var.combinedrg
+  location = canadacentral
 }
 
 # Virtual Network
 resource "azurerm_virtual_network" "virtual_network" {
-  name                = var.vnet_name
+  name                = combinedvn
   address_space       = ["10.0.0.0/16"]
   location            = azurerm_resource_group.resource_group.location
   resource_group_name = azurerm_resource_group.resource_group.name
@@ -14,7 +14,7 @@ resource "azurerm_virtual_network" "virtual_network" {
 
 # Subnet
 resource "azurerm_subnet" "subnet" {
-  name                 = var.subnet_name
+  name                 = combinedsubnet
   resource_group_name  = azurerm_resource_group.resource_group.name
   virtual_network_name = azurerm_virtual_network.virtual_network.name
   address_prefixes     = ["10.0.2.0/24"]
@@ -22,7 +22,7 @@ resource "azurerm_subnet" "subnet" {
 
 # Network Interface for Linux VM
 resource "azurerm_network_interface" "linux_nic" {
-  name                = var.linux_nic_name
+  name                = nilinux
   location            = azurerm_resource_group.resource_group.location
   resource_group_name = azurerm_resource_group.resource_group.name
 
@@ -35,7 +35,7 @@ resource "azurerm_network_interface" "linux_nic" {
 
 # Network Interface for Windows VM
 resource "azurerm_network_interface" "windows_nic" {
-  name                = var.windows_nic_name
+  name                = var.windows_windowni
   location            = azurerm_resource_group.resource_group.location
   resource_group_name = azurerm_resource_group.resource_group.name
 
@@ -48,7 +48,7 @@ resource "azurerm_network_interface" "windows_nic" {
 
 # Linux Virtual Machine
 resource "azurerm_linux_virtual_machine" "linux_vm" {
-  name                = var.linux_vm_name
+  name                = var.linuxjoseph
   resource_group_name = azurerm_resource_group.resource_group.name
   location            = azurerm_resource_group.resource_group.location
   size                = var.linux_vm_size
