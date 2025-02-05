@@ -1,10 +1,10 @@
 provider "azurerm" {
-features {}
+  features {}
 }
 
 resource "azurerm_resource_group" "azjoerg" {
   name     = "azjoe-resources"
-  location = "central canada"
+  location = "canadacentral"
 }
 
 resource "azurerm_virtual_network" "azjoevn" {
@@ -27,7 +27,7 @@ resource "azurerm_network_interface" "azjoeni" {
   resource_group_name = azurerm_resource_group.azjoerg.name
 
   ip_configuration {
-    name                          = "internal"
+    name                          = "internal-ip-config"
     subnet_id                     = azurerm_subnet.azjoesubnet.id
     private_ip_address_allocation = "Dynamic"
   }
@@ -39,7 +39,10 @@ resource "azurerm_windows_virtual_machine" "azjoevm" {
   location            = azurerm_resource_group.azjoerg.location
   size                = "Standard_F2"
   admin_username      = "adminuser"
-  admin_password      = "zozo1985"
+
+  # Use sensitive variables for secure password management
+  admin_password = var.admin_password
+
   network_interface_ids = [
     azurerm_network_interface.azjoeni.id,
   ]
@@ -55,4 +58,16 @@ resource "azurerm_windows_virtual_machine" "azjoevm" {
     sku       = "2016-Datacenter"
     version   = "latest"
   }
+
+  tags = {
+    environment = "development"
+    owner       = "joe"
+  }
+}
+
+# Use Terraform variables to manage sensitive data
+variable "admin_password" {
+  description = "Admin password for the virtual machine"
+  type        = string
+  sensitive   = true
 }
