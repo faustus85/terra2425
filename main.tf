@@ -7,7 +7,7 @@ resource "azurerm_resource_group" "azjoerg" {
   location = "central canada"
 }
 
-resource "azurerm_virtual_network" "azjoevm" {  # Added missing closing brace
+resource "azurerm_virtual_network" "azjoevm" {  
   name                = "azjoe-network"
   address_space       = ["10.0.0.0/16"]
   location            = azurerm_resource_group.azjoerg.location
